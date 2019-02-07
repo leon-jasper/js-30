@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas :)</title>
+</head>
+
+<body>
+  <h1 id="headline"></h1>
+  <canvas id="draw" width="800" height="800"></canvas>
+  <script>
+    console.log("IE check");
+    var iEVersion = getInternetExplorerVersion();
+    if (iEVersion != -1) {
+      alertText = "Don't use the IE. Just don't";
+      alert(alertText);
+    }
+
+    function getInternetExplorerVersion() {
+      var rV = -1; // Return value assumes failure.
+
+      if (navigator.appName == 'Microsoft Internet Explorer' || navigator.appName == 'Netscape') {
+        var uA = navigator.userAgent;
+        var rE = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+
+        if (rE.exec(uA) != null) {
+          rV = parseFloat(RegExp.$1);
+        }
+        /*check for IE 11*/
+        else if (!!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+          rV = 11;
+        }
+      }
+      return rV;
+    }
+  </script>
+  <script>
+    const headline = document.querySelector('#headline');
+    const canvas = document.querySelector('#draw');
+    const context = canvas.getContext('2d');
+    let name = 'visitor';
+    const urlParams = new URLSearchParams(window.location.search);
+    const nameParam = urlParams.get('name');
+
+
+    if (nameParam) {
+      name = nameParam;
+    }
+    headline.textContent = `Hello ${name}, start drawing`;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    context.lineJoin = 'round';
+    context.lineCap = 'round';
+
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    let colorHsl = 0;
+    let direction = true;
+    function draw(event) {
+      if (!isDrawing) return; //stop function if not clicked
+      //console.log(event);
+      context.strokeStyle = `hsl(${colorHsl}, 100%, 50%)`; //hsl for the rainbow colors, 0-360 as number
+      context.beginPath();
+      //start drawing
+      context.moveTo(lastX, lastY);
+      //move line to
+      context.lineTo(event.offsetX, event.offsetY);
+      context.stroke();
+      [lastX, lastY] = [event.offsetX, event.offsetY];
+
+      colorHsl++;
+      if (colorHsl >= 360) {
+        colorHsl = 0;
+      }
+      if (context.lineWidth >= 50 || context.lineWidth <= 1) {
+        direction = !direction;
+      }
+
+      if (direction) {
+        context.lineWidth++;
+      } else {
+        context.lineWidth--;
+      }
+    }
+
+    function removeHeadline() {
+      headline.hidden = true;
+    }
+
+    canvas.addEventListener('mousemove', draw);
+    //Start the drawing at current mouse position 
+    canvas.addEventListener('mousedown', (event) => {
+      isDrawing = true;
+      [lastX, lastY] = [event.offsetX, event.offsetY];
+      removeHeadline();
+    });
+    canvas.addEventListener('mouseup', () => isDrawing = false);
+    canvas.addEventListener('mouseout', () => isDrawing = false);
+
+  </script>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      text-align: center;
+    }
+
+    h1 {
+      position: absolute;
+    }
+  </style>
+
+</body>
+
+</html>
