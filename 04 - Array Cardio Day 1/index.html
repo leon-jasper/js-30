@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Array Cardio 💪</title>
+</head>
+
+<style>
+  .flex-container {
+    display: flex;
+  }
+
+  .flex-item {
+    padding: 5px;
+  }
+
+  li {
+    padding: 5px 0;
+  }
+
+  .item--arrow {
+    align-self: center;
+    padding: 0 50px;
+  }
+
+  .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+  }
+</style>
+
+<body>
+  <div class="flex-container">
+    <div class="flex-item">
+      <ul>
+        <li>
+          <button onClick="task1()">Task 1</button>
+        </li>
+        <li>
+          <button onClick="task2()">Task 2</button>
+        </li>
+        <li>
+          <button onClick="task3()">Task 3</button>
+        </li>
+        <li>
+          <button onClick="task4()">Task 4</button>
+        </li>
+        <li>
+          <button onClick="task5()">Task 5</button>
+        </li>
+        <li>
+          <button onClick="task6()">Task 6</button>
+        </li>
+        <li>
+          <button onClick="task7()">Task 7</button>
+        </li>
+        <li>
+          <button onClick="task8()">Task 8</button>
+        </li>
+      </ul>
+    </div>
+    <div class="flex-item item--arrow">
+      <p class="arrow"></p>
+    </div>
+    <div class="flex-item">
+      <ul id="resultList">
+      </ul>
+    </div>
+  </div>
+</body>
+
+<script src="main.js"></script>
+
+</html>
