@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>JS Reference VS Copy</title>
+</head>
+
+<body>
+
+  <script>
+    // start with strings, numbers and booleans
+    /* let name = 'Leon';
+    let name2 = name;
+    console.log(`name: ${name}, name2: ${name2}`);
+    name = 'Leon2';
+    console.log(`name: ${name}, name2: ${name2}`); */
+
+    // Array
+    const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+
+    // and we want to make a copy of it.
+    const team = players;
+    console.log(players, team);
+
+    // You might think we can just do something like this: (change 2nd)
+    team[2] = 'Aladin'; //changed the PLAYERS Array, too because team Array is just a reference!
+    console.log(players, team);
+
+    // COPY the Array
+
+    // one way
+    const team2 = players.slice();
+    console.log('team2: ', team2);
+
+    // or create a new array and concat the old one in
+    const team3 = [].concat(players);
+    console.log('team3: ', players);
+
+    // or use the new ES6 Spread
+    const team4 = [...players];
+    console.log('team4: ', team4);
+
+    // Array.from()
+    const team5 = Array.from(players);
+    team5[2] = 'notAladin';
+    console.log('team5: ', team5);
+
+
+    // The same thing goes for objects, let's say we have a person object
+
+    // with Objects
+    const person = {
+      name: 'Wes Bos',
+      age: 80,
+      level2: {
+        deep1: 1,
+        deep2: 2
+      }
+    };
+
+    // and think we make a copy:
+    const person2 = person;
+    //person2.number = 1;
+    //person2.age = 1;
+    //console.log(person);
+
+    // how do we take a copy instead?
+    const person3 = Object.assign({}, person, { number: 99, age: 1 });
+    console.log('person: ', person);
+    console.log('person3: ', person3);
+    //!!! IMPORTANT: 
+    // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+
+    //Poor man's deep clone: 
+    const person4 = JSON.parse(JSON.stringify(person));
+
+  </script>
+
+</body>
+
+</html>
