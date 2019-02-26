@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥ist das eine Ente?</h1>
+  </div>
+
+  <style>
+    html {
+      color: black;
+      font-family: sans-serif;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: black;
+    }
+
+    h1 {
+      text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+      font-size: 100px;
+    }
+  </style>
+
+  <script>
+    const hero = document.querySelector('.hero');
+    const text = hero.querySelector('h1');
+    const halfShadowSize = 250;
+    let colorHsl = 0;
+
+    function makeShadow(event) {
+      //console.log(event);
+      /*       const width = hero.offsetWidth;
+      const height = hero.offsetHeight; */
+      const { offsetWidth: width, offsetHeight: height } = hero;
+      let { offsetX: mouseX, offsetY: mouseY } = event;
+      //CAREFUL: this = always xx.addEventlistener BUT event can be a different trigger
+      if (this !== event.target) {
+        mouseX = mouseX + event.target.offsetLeft;
+        mouseY = mouseY + event.target.offsetTop;
+      }
+
+      const xShadowSize = Math.round((mouseX / width * halfShadowSize) - (halfShadowSize / 2));
+      const yShadowSize = Math.round((mouseY / height * halfShadowSize) - (halfShadowSize / 2));
+
+      text.style.textShadow = `
+      ${xShadowSize}px ${yShadowSize}px 0 hsl(${colorHsl}, 100%, 50%),
+      ${xShadowSize * -1}px ${yShadowSize}px 0 hsl(${colorHsl + 90}, 100%, 50%),
+      ${yShadowSize}px ${xShadowSize}px 0 hsl(${colorHsl + 180}, 100%, 50%),
+      ${yShadowSize * -1}px ${xShadowSize}px 0 hsl(${colorHsl + 240}, 100%, 50%)     
+      `;
+
+      colorHsl++;
+      if (colorHsl >= 360) {
+        colorHsl = 0;
+      }
+    }
+
+    hero.addEventListener('mousemove', makeShadow);
+
+  </script>
+</body>
+
+</html>
