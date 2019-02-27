@@ -8,8 +8,8 @@
 
 <body>
 
-  <div class="words" contenteditable>
-    <p>Bitte sprechen :) </p>
+  <div class="words">
+    <p>Bitte sprechen :)</p>
   </div>
 
   <script>
@@ -47,7 +47,7 @@
     });
 
     function toggleReader(event) {
-      console.log(event);
+      //console.log(event);
       if (!event.target.matches('span')) return; //skip unless it's an span
       text = event.path[1].textContent.slice(0, -1);
       msgToRead.text = text;
@@ -95,6 +95,10 @@
       color: darkgray;
       font-size: small;
       vertical-align: top;
+    }
+
+    span:hover {
+      cursor: pointer;
     }
 
     p {
