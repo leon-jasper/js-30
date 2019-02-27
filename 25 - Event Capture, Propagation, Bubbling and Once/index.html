@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Understanding JavaScript's Capture</title>
+</head>
+
+<body class="bod">
+
+  <div class="one">
+    <div class="two">
+      <div class="three">
+      </div>
+    </div>
+  </div>
+
+  <style>
+    html {
+      box-sizing: border-box;
+    }
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
+
+    div {
+      width: 100%;
+      padding: 100px;
+    }
+
+    .one {
+      background: thistle;
+    }
+
+    .two {
+      background: mistyrose;
+    }
+
+    .three {
+      background: coral;
+    }
+  </style>
+
+  <button>Just one Click ever</button>
+  <script>
+    const divs = document.querySelectorAll('div');
+    const button = document.querySelector('button');
+
+    function logText(event) {
+      console.log(this.classList.value);
+      //event.stopPropagation(); --> stops the bubbeling  from bottom to top element
+    }
+
+
+
+    divs.forEach(div => div.addEventListener('click', logText));
+
+    //eventListener option: once --> removes the eventlistener after first event
+    button.addEventListener('click', () => console.log('btn clicked'), { once: true });
+
+    //onClick:
+    //captureEvent => browsers goes from top to bottom to clicked element
+    //triggers events from bottom to top
+
+
+  </script>
+</body>
+
+</html>
