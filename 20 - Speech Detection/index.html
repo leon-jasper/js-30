@@ -9,15 +9,23 @@
 <body>
 
   <div class="words" contenteditable>
+    <p>Bitte sprechen :) </p>
   </div>
 
   <script>
+
     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const msgToRead = new SpeechSynthesisUtterance();
+    const wordsList = document.querySelector('.words');
+    let waitForReader = false;
 
     const recognition = new SpeechRecognition();
     recognition.interimResults = true;
 
     let p = document.createElement('p');
+    let playIcon = document.createElement('span');
+    playIcon.innerHTML = ' &#9658;'
+    playIcon.classList.add('playIcon');
     const words = document.querySelector('.words');
     words.appendChild(p);
 
@@ -29,17 +37,31 @@
 
       p.textContent = transcript;
       if (event.results[0].isFinal) {
-        p = document.createElement('p');
+        p.appendChild(playIcon);
+        playIcon = document.createElement('span');
+        playIcon.innerHTML = ' &#9658;'
+        playIcon.classList.add('playIcon');
+        p = document.createElement('p'); //add a new Paragraph for the next text
         words.appendChild(p);
       }
-
-      console.log(transcript);
     });
 
-    recognition.addEventListener('end', recognition.start); //start the listener again
+    function toggleReader(event) {
+      console.log(event);
+      if (!event.target.matches('span')) return; //skip unless it's an span
+      text = event.path[1].textContent.slice(0, -1);
+      msgToRead.text = text;
+      speechSynthesis.speak(msgToRead);
+    }
+
+    recognition.addEventListener('end', () => !waitForReader && recognition.start()); //start the listener again
+    wordsList.addEventListener('click', toggleReader); //Event Delegation for dynamic elements :)
+    msgToRead.addEventListener('start', () => waitForReader = true);
+    msgToRead.addEventListener('start', () => recognition.stop());
+    msgToRead.addEventListener('end', () => waitForReader = false);
+    msgToRead.addEventListener('end', () => recognition.start());
 
     recognition.start();
-
 
   </script>
 
@@ -67,6 +89,12 @@
       background-size: 100% 3rem;
       position: relative;
       line-height: 3rem;
+    }
+
+    span {
+      color: darkgray;
+      font-size: small;
+      vertical-align: top;
     }
 
     p {
