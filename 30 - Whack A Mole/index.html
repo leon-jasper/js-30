@@ -84,7 +84,7 @@
     function bonk(event) {
       if (!event.isTrusted) return //fake click
       score++;
-      this.classList.remove('up');
+      this.parentNode.classList.remove('up');
       scoreBoard.textContent = score;
       console.log(event);
     }
