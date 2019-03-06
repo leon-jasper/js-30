@@ -36,10 +36,13 @@
     </div>
   </div>
 
+  <audio data-audio="kick" src="kick.wav"></audio>
+
   <script>
     const holes = document.querySelectorAll('.hole');
     const scoreBoard = document.querySelector('.score');
     const moles = document.querySelectorAll('.mole');
+    const audio = document.querySelector(`audio[data-audio="kick"]`);
     let lastHole;
     let timeUp = false;
     let score = 0;
@@ -85,6 +88,8 @@
       if (!event.isTrusted) return //fake click
       if (!this.parentNode.classList.contains('up')) return //prevent double hit
       score++;
+      audio.currentTime = 0; //revert if clicked (again)
+      audio.play();
       this.parentNode.classList.remove('up');
       scoreBoard.textContent = score;
       console.log(event);
