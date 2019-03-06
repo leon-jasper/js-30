@@ -83,6 +83,7 @@
 
     function bonk(event) {
       if (!event.isTrusted) return //fake click
+      if (!this.parentNode.classList.contains('up')) return //prevent double hit
       score++;
       this.parentNode.classList.remove('up');
       scoreBoard.textContent = score;
